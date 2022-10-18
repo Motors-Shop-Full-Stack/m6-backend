@@ -1,0 +1,8 @@
+{
+  "name": "m6-backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:m6-project/m6-backend.git",
+  "author": "kennedybm <kennedy_muniz@hotmail.com>",
+  "license": "MIT"
+}
