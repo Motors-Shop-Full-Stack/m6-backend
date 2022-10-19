@@ -15,7 +15,7 @@ app.use(express.json());
 app.use("/test", routesTest);
 app.use(handleAppErrorMiddleware);
 
-app.listen(process.env.PORT || 3000, () => {
+app.listen(process.env.PORT || 3001, () => {
   console.log("App runing");
 });
 export default app;
