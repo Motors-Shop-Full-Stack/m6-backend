@@ -13,7 +13,7 @@ const AppDataSource = new DataSource({
   logging: true,
   synchronize: false,
   entities: ["src/entities/*.ts"],
-  migrations: ["src/migrations/*.ts"],
+  migrations: ["src/migration/*.ts"],
 });
 
 
