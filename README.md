@@ -27,7 +27,7 @@ O backend desse projeto foi desenvolvido em Node, utilizando express e TypeORM.
    
    ![env url](https://cdn.discordapp.com/attachments/692881204256702536/1037719783761776660/unknown.png)
 
-4. Iniciar a aplicação (esse comando era buildar e rodar os container da aplicação): `docker-compose up`
+4. Iniciar a aplicação (esse comando irá buildar e rodar os container da aplicação): `docker-compose up`
    
 5. Visitar aplicação: `localhost:3000`
    
