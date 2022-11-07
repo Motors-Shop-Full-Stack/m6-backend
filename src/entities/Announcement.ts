@@ -7,6 +7,7 @@ import {
     PrimaryColumn,
     PrimaryGeneratedColumn,
   } from "typeorm";
+import { User } from "./User";
   
   @Entity()
   export class Announcement {
@@ -30,6 +31,6 @@ import {
     category: string;
     @Column("integer", { nullable: false})
     fabricationYear: number;
-    // @Column()
-    // created_at: Date;
+    @ManyToOne(() => User, (user) => user.announcements)
+    user: User
   }
