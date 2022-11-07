@@ -1,6 +1,11 @@
-import AppDataSource from "../../data-source"
-import { Announcement } from "../../entities/Announcement";
-import { AppError } from "../../errors/AppError";
+import AppDataSource from "../data-source"
+import { Announcement } from "../entities/Announcement";
+import { AppError } from "../errors/AppError";
+
+interface ICreateAnnouncementProps{
+    data: ICreateAnnouncementData
+    token: string
+}
 
 interface ICreateAnnouncementData {
     announceType: string,
@@ -11,6 +16,7 @@ interface ICreateAnnouncementData {
     description: string
     category: string
     announceCover: string
+    user: any
 }
 
 class AnnouncementService {
@@ -20,7 +26,7 @@ class AnnouncementService {
         return announcements
     }
 
-    static async createAnnouncementsService(data: ICreateAnnouncementData): Promise<Announcement> {
+    static async createAnnouncementsService(data: ICreateAnnouncementData) {
         const manager = AppDataSource.getRepository(Announcement)
 
         const findAnnouncement = await manager.findOneBy({
@@ -31,8 +37,19 @@ class AnnouncementService {
             throw new AppError(400, "Announce image is already been used");
           }
 
-        const announcement = manager.create(data)
+        const formatedAnnouncement = {
+            announceType: data.announceType,
+            title: data.title,
+            fabricationYear: data.fabricationYear,
+            km: data.km,
+            price: data.price,
+            description: data.description,
+            category: data.category,
+            announceCover: data.announceCover,
+            userId: data.user.id
+        }
 
+        const announcement = manager.create(formatedAnnouncement)
 
         await manager.save(announcement)
 
