@@ -6,10 +6,9 @@ import { User } from "../../entities/User";
 function VerifyToken(req: Request, res: Response, next: NextFunction) {
   
   const token = req.headers.authorization;
-
   if (!token) {
     return res.status(401).json({
-      message: "Invalid token1",
+      message: "Invalid token",
     });
   }
 
@@ -18,7 +17,7 @@ function VerifyToken(req: Request, res: Response, next: NextFunction) {
   jwt.verify(tokenSplit[1], process.env.SECRET_KEY as string, (error: any, decoded: any) => {
     if (error) {
       return res.status(401).json({
-        message: "Invalid token2",
+        message: "Invalid token",
       });
     }
     
@@ -29,10 +28,9 @@ function VerifyToken(req: Request, res: Response, next: NextFunction) {
 
     if (!decoded.isActive) {
       return res.status(401).json({
-        message: "Invalid token3",
+        message: "Invalid token",
       });
     }
-
     next();
   });
 }
