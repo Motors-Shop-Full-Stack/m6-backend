@@ -62,7 +62,10 @@ class AnnouncementService {
 
     static async retrieveAnnouncementService(id: string) {
         const manager = AppDataSource.getRepository(Announcement)
-        const announcement = await manager.findOneBy({ id: id })
+        const announcement = await manager.findOne({
+            where: { id: id },
+            relations: ['user'],
+          });
 
         if (!announcement) {
             throw new AppError(404, "Announcement not found")

@@ -122,7 +122,7 @@ class UserService {
 
   static async retrieveUserService(id: string) {
     const manager = AppDataSource.getRepository(User)
-    const user = await manager.findOneBy({ id: id })
+    const user = await manager.findOne({where: { id: id }, relations:["announcements"]})
 
     if (!user) {
       throw new AppError(404, "Client not found")

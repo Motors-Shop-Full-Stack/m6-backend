@@ -9,8 +9,8 @@ const usersRoute = Router();
 usersRoute.get("", UserController.listUserController);
 usersRoute.post("", UserController.createUserController);
 usersRoute.post("/login", UserController.loginUserController)
-usersRoute.get("/:id", VerifyToken, UserController.retrieveUserController)
-usersRoute.patch("/:id", VerifyToken, VerifyAccountOwner, UserController.updateUserController)
+usersRoute.get("/:id",  UserController.retrieveUserController)
+usersRoute.patch("/:id", VerifyAccountOwner, UserController.updateUserController)
 usersRoute.delete("/:id", VerifyToken, VerifyAccountOwner, UserController.deleteUserController)
 
 export default usersRoute;
