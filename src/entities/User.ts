@@ -25,6 +25,10 @@ export class User {
     cel: string;
     @Column({ type: "date", nullable: false })
     birthdate: string;
+    @Column({ type: "text", nullable: false })
+    description: string;
+    @Column({ type: "varchar", nullable: false })
+    accountType: string;
     @Column("varchar", { length: 8, nullable: false, default: true })
     cep: string;
     @Column("varchar", { length: 2, nullable: false })
