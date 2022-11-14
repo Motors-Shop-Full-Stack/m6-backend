@@ -56,11 +56,11 @@ class UserService {
     });
 
     const findUserByCpf = await manager.findOneBy({
-      email: data.cpf,
+      cpf: data.cpf,
     });
 
     const findUserByCel = await manager.findOneBy({
-      email: data.cel,
+      cel: data.cel,
     });
 
     if (findUserByEmail) {
