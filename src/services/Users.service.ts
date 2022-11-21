@@ -117,7 +117,7 @@ class UserService {
         }
         );
 
-    return { token };
+    return { token, userId: user.id };
   }
 
   static async retrieveUserService(id: string) {
