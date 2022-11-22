@@ -21,7 +21,7 @@ export class User {
     password: string;
     @Column("varchar", { length: 11, nullable: false, unique: true })
     cpf: string;
-    @Column("varchar", { length: 11, nullable: false, unique: true })
+    @Column("varchar", { length: 12, nullable: false, unique: true })
     cel: string;
     @Column({ type: "date", nullable: false })
     birthdate: string;
