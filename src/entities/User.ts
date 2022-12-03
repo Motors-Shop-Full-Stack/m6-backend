@@ -1,13 +1,13 @@
 import {
   Column,
   Entity,
-  Generated,
-  ManyToOne,
+  JoinTable,
+  ManyToMany,
   OneToMany,
-  PrimaryColumn,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Announcement } from "./Announcement";
+import { Comment } from "./Comment";
 
 @Entity()
 export class User {
@@ -45,4 +45,7 @@ export class User {
   is_active: boolean;
   @OneToMany(() => Announcement, (announcement) => announcement.user)
   announcements: Announcement[];
+  @ManyToMany(() => Comment)
+  @JoinTable()
+  comments: Comment[]
 }

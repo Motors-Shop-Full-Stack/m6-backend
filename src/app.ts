@@ -6,6 +6,7 @@ import cors from "cors";
 import announcementsRoute from "./routers/announcements";
 import handleAppErrorMiddleware from "./middlewares/handleAppError.middlewares";
 import usersRoute from "./routers/user";
+import commentRoute from "./routers/comment";
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use(express.json());
 //Routes
 app.use("/announcements", announcementsRoute);
 app.use("/users", usersRoute);
+app.use("/comments", commentRoute);
 
 app.use(handleAppErrorMiddleware);
 

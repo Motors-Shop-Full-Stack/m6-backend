@@ -1,12 +1,11 @@
 import {
     Column,
     Entity,
-    Generated,
     ManyToOne,
     OneToMany,
-    PrimaryColumn,
     PrimaryGeneratedColumn,
   } from "typeorm";
+import { Comment } from "./Comment";
 import { User } from "./User";
   
   @Entity()
@@ -33,4 +32,6 @@ import { User } from "./User";
     fabricationYear: number;
     @ManyToOne(() => User, (user) => user.announcements)
     user: User
+    @OneToMany(() => Comment, (comment) => comment.announcement)
+    comments: Comment[];
   }
