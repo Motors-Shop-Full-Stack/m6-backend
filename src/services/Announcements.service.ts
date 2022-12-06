@@ -64,7 +64,7 @@ class AnnouncementService {
         const manager = AppDataSource.getRepository(Announcement)
         const announcement = await manager.findOne({
             where: { id: id },
-            relations: ['user'],
+            relations: ['user', 'comments.user'],
           });
 
         if (!announcement) {

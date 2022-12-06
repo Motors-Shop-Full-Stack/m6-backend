@@ -45,7 +45,6 @@ export class User {
   is_active: boolean;
   @OneToMany(() => Announcement, (announcement) => announcement.user)
   announcements: Announcement[];
-  @ManyToMany(() => Comment)
-  @JoinTable()
-  comments: Comment[]
+  @OneToMany(() => Comment, (comment) => comment.user)
+  comments: Comment[];
 }

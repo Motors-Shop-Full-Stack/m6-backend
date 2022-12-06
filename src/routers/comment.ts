@@ -4,7 +4,6 @@ import VerifyToken from "../middlewares/authentication/verifyToken";
 
 const commentRoute = Router();
 
-commentRoute.get("", CommentController.listCommentsController);
-commentRoute.post("", VerifyToken, CommentController.createCommentController);
+commentRoute.post("/:id", VerifyToken, CommentController.createCommentController);
 
 export default commentRoute;
