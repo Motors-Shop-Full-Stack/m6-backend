@@ -25,9 +25,6 @@ export class User {
   @Column({ type: "date" })
   birthdate: Date;
 
-  @Column({ type: "text", nullable: true })
-  description: string;
-
   @Column({ length: 15 })
   accountType: string;
 
