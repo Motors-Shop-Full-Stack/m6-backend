@@ -1,6 +1,7 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Announcement } from "./Announcement";
 import { Comment } from "./Comment";
+import { Bid } from "./Bid";
 
 @Entity("User")
 export class User {
@@ -54,4 +55,7 @@ export class User {
 
   @OneToMany(() => Comment, (comment) => comment.user)
   comments: Comment[];
+
+  @OneToMany(() => Bid, (bid) => bid.user)
+  bids: Bid[];
 }
