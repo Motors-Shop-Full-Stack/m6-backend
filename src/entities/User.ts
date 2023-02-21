@@ -1,62 +1,55 @@
-import {
-  Column,
-  Entity,
-  JoinTable,
-  ManyToMany,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Announcement } from "./Announcement";
 import { Comment } from "./Comment";
 
-@Entity()
+@Entity("User")
 export class User {
   @PrimaryGeneratedColumn("uuid")
   readonly id: string;
 
-  @Column("varchar", { length: 50, nullable: false })
+  @Column({ length: 50 })
   name: string;
 
-  @Column("varchar", { length: 50, nullable: false, unique: true })
+  @Column({ length: 50, unique: true })
   email: string;
 
-  @Column("varchar", { length: 200, nullable: false })
+  @Column({ length: 200 })
   password: string;
 
-  @Column("varchar", { length: 11, nullable: false, unique: true })
+  @Column({ length: 11, unique: true })
   cpf: string;
 
-  @Column("varchar", { length: 12, nullable: false, unique: true })
+  @Column({ length: 12, unique: true })
   cel: string;
 
-  @Column({ type: "date", nullable: false })
+  @Column({ type: "date" })
   birthdate: Date;
 
-  @Column({ type: "text", nullable: false })
+  @Column({ type: "text", nullable: true })
   description: string;
 
-  @Column({ type: "varchar", nullable: false })
+  @Column({ length: 15 })
   accountType: string;
 
-  @Column("varchar", { length: 8, nullable: false, default: true })
+  @Column({ length: 8 })
   cep: string;
 
-  @Column("varchar", { length: 2, nullable: false })
+  @Column({ length: 2 })
   state: string;
 
-  @Column("varchar", { length: 50, nullable: false })
+  @Column({ length: 50 })
   city: string;
 
-  @Column("varchar", { length: 50, nullable: false, default: true })
+  @Column({ length: 50 })
   street: string;
 
-  @Column("integer", { nullable: false })
+  @Column({ type: "integer" })
   number: number;
 
-  @Column("varchar", { length: 20, nullable: true })
+  @Column({ length: 20, nullable: true })
   complement: string;
 
-  @Column("boolean", { nullable: false, default: true })
+  @Column({ default: true })
   is_active: boolean;
 
   @OneToMany(() => Announcement, (announcement) => announcement.user)
