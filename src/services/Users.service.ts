@@ -12,42 +12,56 @@ class UserService {
     return users;
   }
 
-  static async createUsersService(data: ICreateUser) {
-    const manager = AppDataSource.getRepository(User);
+  static async createUsersService({
+    name,
+    email,
+    password,
+    cpf,
+    cell,
+    birthdate,
+    accountType,
+    cep,
+    state,
+    city,
+    street,
+    number,
+    complement,
+  }: ICreateUser): Promise<User> {
+    const userRepository = AppDataSource.getRepository(User);
 
-    const findUserByEmail = await manager.findOneBy({
-      email: data.email,
+    const findUser = await userRepository.find();
+
+    findUser.map((user) => {
+      if (user.email === email) {
+        throw new AppError(400, "Email is already been used");
+      } else if (user.cpf === cpf) {
+        throw new AppError(400, "Cpf is already registered");
+      } else if (user.cell) {
+        throw new AppError(400, "Cellphone number is already registered");
+      }
     });
 
-    const findUserByCpf = await manager.findOneBy({
-      cpf: data.cpf,
+    const hashedPassword = await bcrypt.hash(password, 12);
+
+    const newUser = userRepository.create({
+      name,
+      email,
+      password: hashedPassword,
+      cpf,
+      cell,
+      birthdate,
+      accountType,
+      cep,
+      state,
+      city,
+      street,
+      number,
+      complement,
     });
 
-    const findUserByCel = await manager.findOneBy({
-      cel: data.cel,
-    });
+    await userRepository.save(newUser);
 
-    if (findUserByEmail) {
-      throw new AppError(400, "Email is already been used");
-    }
-
-    if (findUserByCpf) {
-      throw new AppError(400, "Cpf is already registered");
-    }
-
-    if (findUserByCel) {
-      throw new AppError(400, "Cellphone number is already registered");
-    }
-
-    const hashedPassword = await bcrypt.hash(data.password, 12);
-
-    data.password = hashedPassword;
-
-    const user = manager.create(data);
-
-    await manager.save(user);
-
-    return user;
+    return newUser;
   }
 
   static async loginUserService(data: ILoginUser) {
