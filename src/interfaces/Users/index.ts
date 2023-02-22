@@ -3,8 +3,9 @@ export interface ICreateUser {
   email: string;
   password: string;
   cpf: string;
-  cel: string;
-  birthdate: any;
+  cell: string;
+  birthdate: Date;
+  accountType: string;
   cep: string;
   state: string;
   city: string;
