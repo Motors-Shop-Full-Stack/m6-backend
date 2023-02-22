@@ -1,55 +1,19 @@
-import AppDataSource from "../data-source"
+import AppDataSource from "../data-source";
 import { User } from "../entities/User";
 import { AppError } from "../errors/AppError";
 import * as bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-
-interface ICreateUser {
-  name: string
-  email: string
-  password: string
-  cpf: string
-  cel: string
-  birthdate: any
-  cep: string
-  state: string
-  city: string
-  street: string
-  number: number
-  complement: string
-  is_active?: boolean
-}
-
-interface IUpdateUser {
-  name?: string
-  email?: string
-  password?: string
-  cpf?: string
-  cel?: string
-  birthdate?: any
-  cep?: string
-  state?: string
-  city?: string
-  street?: string
-  number?: number
-  complement?: string
-  is_active?: boolean
-}
-
-interface ILoginUser {
-  email: string,
-  password: string
-}
+import { ICreateUser, ILoginUser, IUpdateUser } from "../interfaces/Users";
 
 class UserService {
   static async listUsersService() {
-    const manager = AppDataSource.getRepository(User)
-    const users = manager.find()
-    return users
+    const manager = AppDataSource.getRepository(User);
+    const users = manager.find();
+    return users;
   }
 
   static async createUsersService(data: ICreateUser) {
-    const manager = AppDataSource.getRepository(User)
+    const manager = AppDataSource.getRepository(User);
 
     const findUserByEmail = await manager.findOneBy({
       email: data.email,
@@ -77,87 +41,84 @@ class UserService {
 
     const hashedPassword = await bcrypt.hash(data.password, 12);
 
-    data.password = hashedPassword
+    data.password = hashedPassword;
 
-    const user = manager.create(data)
+    const user = manager.create(data);
 
-    await manager.save(user)
+    await manager.save(user);
 
-    return user
+    return user;
   }
 
   static async loginUserService(data: ILoginUser) {
-    const manager = AppDataSource.getRepository(User)
+    const manager = AppDataSource.getRepository(User);
     const user = await manager.findOneBy({
       email: data.email,
     });
-    
+
     if (!user) {
       throw new AppError(400, "Email or password is incorrect");
     }
 
-    const passwordCompare = bcrypt.compareSync(
-      data.password,
-      user.password
-      );
-      
-      if (!passwordCompare) {
-        throw new AppError(400, "Email or password is incorrect");
+    const passwordCompare = bcrypt.compareSync(data.password, user.password);
+
+    if (!passwordCompare) {
+      throw new AppError(400, "Email or password is incorrect");
+    }
+
+    const token = jwt.sign(
+      {
+        id: user.id,
+        email: user.email,
+        isActive: user.is_active,
+      },
+      process.env.SECRET_KEY as string,
+      {
+        expiresIn: "24h",
       }
-      
-      const token = jwt.sign(
-        {
-          id: user.id,
-          email: user.email,
-          isActive: user.is_active
-        },
-        process.env.SECRET_KEY as string,
-        {
-          expiresIn: "24h",
-        }
-        );
+    );
 
     return { token, userId: user.id };
   }
 
   static async retrieveUserService(id: string) {
-    const manager = AppDataSource.getRepository(User)
-    const user = await manager.findOne({where: { id: id }, relations:["announcements"]})
+    const manager = AppDataSource.getRepository(User);
+    const user = await manager.findOne({
+      where: { id: id },
+      relations: ["announcements"],
+    });
 
     if (!user) {
-      throw new AppError(404, "Client not found")
+      throw new AppError(404, "Client not found");
     }
 
-    return user
+    return user;
   }
 
   static async deleteUserService(id: string) {
-    const manager = AppDataSource.getRepository(User)
+    const manager = AppDataSource.getRepository(User);
 
-    const user = await manager.findOneBy({ id: id })
+    const user = await manager.findOneBy({ id: id });
 
     if (!user) {
-      throw new AppError(404, "User not found")
+      throw new AppError(404, "User not found");
     }
 
-    await manager.delete({ id: id })
+    await manager.delete({ id: id });
   }
 
   static async updateUserService(id: string, data: IUpdateUser) {
-
-    const manager = AppDataSource.getRepository(User)
-    const user = await manager.findOneBy({ id: id })
+    const manager = AppDataSource.getRepository(User);
+    const user = await manager.findOneBy({ id: id });
 
     if (!user) {
-      throw new AppError(404, "User not found")
+      throw new AppError(404, "User not found");
     }
 
     return manager.save({
       ...user, // existing fields
-      ...data // updated fields
-    })
-
+      ...data, // updated fields
+    });
   }
-
 }
 export default UserService;
