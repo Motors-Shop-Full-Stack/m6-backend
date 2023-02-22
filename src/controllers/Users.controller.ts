@@ -1,15 +1,14 @@
 import { Request, Response } from "express";
-import { User } from "../entities/User";
 import UserService from "../services/Users.service";
 
 class UserController {
   static async listUserController(req: Request, res: Response) {
-    const users = await UserService.listUsersService()
+    const users = await UserService.listUsersService();
     return res.status(200).json(users);
   }
 
   static async createUserController(req: Request, res: Response) {
-    const user = await UserService.createUsersService(req.body)
+    const user = await UserService.createUsersService(req.body);
 
     return res.status(201).json(user);
   }
@@ -26,16 +25,15 @@ class UserController {
   }
 
   static async deleteUserController(req: Request, res: Response) {
-    await UserService.deleteUserService(req.params.id)
+    await UserService.deleteUserService(req.params.id);
 
-    return res.status(204).json({ message: "User deleted" })
+    return res.status(204).json({ message: "User deleted" });
   }
 
-  static async updateUserController (req: Request, res: Response){
-    const user = await UserService.updateUserService(req.params.id, req.body)
-    return res.status(200).json(user)
-}
-
+  static async updateUserController(req: Request, res: Response) {
+    const user = await UserService.updateUserService(req.params.id, req.body);
+    return res.status(200).json(user);
+  }
 }
 
 export default UserController;
