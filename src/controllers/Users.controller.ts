@@ -8,9 +8,39 @@ class UserController {
   }
 
   static async createUserController(req: Request, res: Response) {
-    const user = await UserService.createUsersService(req.body);
+    const {
+      name,
+      email,
+      password,
+      cpf,
+      cell,
+      birthdate,
+      accountType,
+      cep,
+      state,
+      city,
+      street,
+      number,
+      complement,
+    } = req.body;
 
-    return res.status(201).json(user);
+    const newUser = await UserService.createUsersService({
+      name,
+      email,
+      password,
+      cpf,
+      cell,
+      birthdate,
+      accountType,
+      cep,
+      state,
+      city,
+      street,
+      number,
+      complement,
+    });
+
+    return res.status(201).json(newUser);
   }
 
   static async loginUserController(req: Request, res: Response) {
