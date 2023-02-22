@@ -6,19 +6,13 @@ import jwt from "jsonwebtoken";
 import { ICreateUser, ILoginUser, IUpdateUser } from "../interfaces/Users";
 
 class UserService {
-  static async listUsersService() {
-    const manager = AppDataSource.getRepository(User);
-    const users = manager.find();
-    return users;
-  }
-
   static async createUsersService({
     name,
     email,
     password,
     cpf,
     cell,
-    birthdate,
+    birthDate,
     accountType,
     cep,
     state,
@@ -49,7 +43,7 @@ class UserService {
       password: hashedPassword,
       cpf,
       cell,
-      birthdate,
+      birthDate,
       accountType,
       cep,
       state,
@@ -62,6 +56,21 @@ class UserService {
     await userRepository.save(newUser);
 
     return newUser;
+  }
+
+  static async listUsersService(): Promise<User[]> {
+    const userRepository = AppDataSource.getRepository(User);
+
+    const userResponse = await userRepository
+      .createQueryBuilder("user")
+      .select("user.id")
+      .addSelect("user.name")
+      .addSelect("user.email")
+      .addSelect("user.cell")
+      .addSelect("user.accountType")
+      .getMany();
+
+    return userResponse;
   }
 
   static async loginUserService(data: ILoginUser) {

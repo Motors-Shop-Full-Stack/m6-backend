@@ -4,7 +4,7 @@ export interface ICreateUser {
   password: string;
   cpf: string;
   cell: string;
-  birthdate: Date;
+  birthDate: Date;
   accountType: string;
   cep: string;
   state: string;

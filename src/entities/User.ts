@@ -24,7 +24,7 @@ export class User {
   cell: string;
 
   @Column({ type: "date" })
-  birthdate: Date;
+  birthDate: Date;
 
   @Column({ length: 15 })
   accountType: string;
