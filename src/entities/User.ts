@@ -21,7 +21,7 @@ export class User {
   cpf: string;
 
   @Column({ length: 12, unique: true })
-  cel: string;
+  cell: string;
 
   @Column({ type: "date" })
   birthdate: Date;
