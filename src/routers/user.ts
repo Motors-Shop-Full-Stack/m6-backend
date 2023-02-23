@@ -7,7 +7,6 @@ const usersRoute = Router();
 
 usersRoute.get("", UserController.listUserController);
 usersRoute.post("", UserController.createUserController);
-usersRoute.post("/login", UserController.loginUserController);
 usersRoute.get("/:id", UserController.retrieveUserController);
 usersRoute.patch(
   "/:id",

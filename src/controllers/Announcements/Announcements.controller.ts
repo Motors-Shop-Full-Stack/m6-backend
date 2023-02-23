@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import AnnouncementService from "../../services/Announcements.service";
+import AnnouncementService from "../../services/Announcements/Announcements.service";
 
 class AnnouncementController {
   static async listAnnouncementController(req: Request, res: Response) {

@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import UserService from "../../services/Users.service";
+import UserService from "../../services/Users/Users.service";
 
 class UserController {
   static async createUserController(req: Request, res: Response) {
@@ -43,11 +43,6 @@ class UserController {
     return res.status(200).json(users);
   }
 
-  static async loginUserController(req: Request, res: Response) {
-    const token = await UserService.loginUserService(req.body);
-    return res.status(200).json(token);
-  }
-
   static async retrieveUserController(req: Request, res: Response) {
     const { id } = req.params;
 
@@ -56,15 +51,18 @@ class UserController {
     return res.status(200).json(user);
   }
 
+  static async updateUserController(req: Request, res: Response) {
+    const { id } = req.params;
+
+    const updatedUser = await UserService.updateUserService(id, req.body);
+
+    return res.status(200).json(updatedUser);
+  }
+
   static async deleteUserController(req: Request, res: Response) {
     await UserService.deleteUserService(req.params.id);
 
     return res.status(204).json({ message: "User deleted" });
-  }
-
-  static async updateUserController(req: Request, res: Response) {
-    const user = await UserService.updateUserService(req.params.id, req.body);
-    return res.status(200).json(user);
   }
 }
 

@@ -30,8 +30,3 @@ export interface IUpdateUser {
   complement?: string;
   is_active?: boolean;
 }
-
-export interface ILoginUser {
-  email: string;
-  password: string;
-}

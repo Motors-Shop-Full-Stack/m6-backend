@@ -1,6 +1,6 @@
-import AppDataSource from "../data-source";
-import { Announcement } from "../entities/Announcement";
-import { AppError } from "../errors/AppError";
+import AppDataSource from "../../data-source";
+import { Announcement } from "../../entities/Announcement";
+import { AppError } from "../../errors/AppError";
 
 interface IUpdateAnnouncement {
   announceType?: string;
