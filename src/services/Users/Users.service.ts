@@ -3,7 +3,7 @@ import { User } from "../../entities/User";
 import { AppError } from "../../errors/AppError";
 import * as bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { ICreateUser, ILoginUser, IUpdateUser } from "../../interfaces/Users";
+import { ICreateUser, IUpdateUser } from "../../interfaces/Users";
 
 class UserService {
   static async createUsersService({
