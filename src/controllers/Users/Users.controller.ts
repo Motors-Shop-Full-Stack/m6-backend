@@ -2,11 +2,6 @@ import { Request, Response } from "express";
 import UserService from "../../services/Users.service";
 
 class UserController {
-  static async listUserController(req: Request, res: Response) {
-    const users = await UserService.listUsersService();
-    return res.status(200).json(users);
-  }
-
   static async createUserController(req: Request, res: Response) {
     const {
       name,
@@ -43,13 +38,20 @@ class UserController {
     return res.status(201).json(newUser);
   }
 
+  static async listUserController(req: Request, res: Response) {
+    const users = await UserService.listUsersService();
+    return res.status(200).json(users);
+  }
+
   static async loginUserController(req: Request, res: Response) {
     const token = await UserService.loginUserService(req.body);
     return res.status(200).json(token);
   }
 
   static async retrieveUserController(req: Request, res: Response) {
-    const user = await UserService.retrieveUserService(req.params.id);
+    const { id } = req.params;
+
+    const user = await UserService.retrieveUserService(id);
 
     return res.status(200).json(user);
   }

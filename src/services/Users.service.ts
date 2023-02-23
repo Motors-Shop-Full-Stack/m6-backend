@@ -104,18 +104,29 @@ class UserService {
     return { token, userId: user.id };
   }
 
-  static async retrieveUserService(id: string) {
-    const manager = AppDataSource.getRepository(User);
-    const user = await manager.findOne({
+  static async retrieveUserService(id: string): Promise<User[]> {
+    const userRepository = AppDataSource.getRepository(User);
+
+    const user = await userRepository.findOne({
       where: { id: id },
-      relations: ["announcements"],
     });
 
     if (!user) {
-      throw new AppError(404, "Client not found");
+      throw new AppError(404, "User not found");
     }
 
-    return user;
+    const userResponse = await userRepository
+      .createQueryBuilder("user")
+      .where("user.id = :id", { id: id })
+      .select("user.id")
+      .addSelect("user.name")
+      .addSelect("user.email")
+      .addSelect("user.cell")
+      .addSelect("user.accountType")
+      .leftJoinAndSelect("user.announcements", "announcements")
+      .getMany();
+
+    return userResponse;
   }
 
   static async deleteUserService(id: string) {
