@@ -5,12 +5,12 @@ class SessionController {
   static async createSession(req: Request, res: Response) {
     const { email, password } = req.body;
 
-    const token = await SessionsService.createSessionService({
+    const loginObj = await SessionsService.createSessionService({
       email,
       password,
     });
 
-    return res.status(200).json({ token });
+    return res.status(200).json({ loginObj });
   }
 }
 
