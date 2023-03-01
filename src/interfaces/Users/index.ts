@@ -20,8 +20,8 @@ export interface IUpdateUser {
   email?: string;
   password?: string;
   cpf?: string;
-  cel?: string;
-  birthdate?: any;
+  cell?: string;
+  birthdate?: Date;
   cep?: string;
   state?: string;
   city?: string;

@@ -56,13 +56,13 @@ class UserController {
 
     const updatedUser = await UserService.updateUserService(id, req.body);
 
-    return res.status(200).json(updatedUser);
+    return res.status(200).json({ message: "User updated with sucess" });
   }
 
   static async deleteUserController(req: Request, res: Response) {
     await UserService.deleteUserService(req.params.id);
 
-    return res.status(204).json({ message: "User deleted" });
+    return res.status(200).json({ message: "User deleted with success!" });
   }
 }
 

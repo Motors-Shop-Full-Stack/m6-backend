@@ -7,7 +7,7 @@ const handleAppErrorMiddleware = (
   res: Response,
   _: NextFunction
 ) => {
-  console.log(error);
+  console.log(error.message);
   if (error instanceof AppError) {
     return res.status(error.statusCode).json({
       message: error.message,
