@@ -73,8 +73,6 @@ class UserService {
       .addSelect("user.is_active")
       .getMany();
 
-    console.log(userResponse);
-
     return userResponse;
   }
 
