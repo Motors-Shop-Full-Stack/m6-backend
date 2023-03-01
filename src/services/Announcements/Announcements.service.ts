@@ -1,30 +1,10 @@
 import AppDataSource from "../../data-source";
 import { Announcement } from "../../entities/Announcement";
 import { AppError } from "../../errors/AppError";
-
-interface IUpdateAnnouncement {
-  announceType?: string;
-  title?: string;
-  fabricationYear?: number;
-  km?: number;
-  price?: string;
-  description?: string;
-  category?: string;
-  announceCover?: string;
-  user?: any;
-}
-
-interface ICreateAnnouncementData {
-  announceType: string;
-  title: string;
-  fabricationYear: number;
-  km: number;
-  price: number;
-  description: string;
-  category: string;
-  announceCover: string;
-  user: any;
-}
+import {
+  ICreateAnnouncementData,
+  IUpdateAnnouncement,
+} from "../../interfaces/Announcements";
 
 class AnnouncementService {
   static async listAnnouncementsService() {
