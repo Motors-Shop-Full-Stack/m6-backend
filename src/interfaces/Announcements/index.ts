@@ -7,6 +7,7 @@ export interface IUpdateAnnouncement {
   description?: string;
   category?: string;
   announceCover?: string;
+  is_active: boolean;
 }
 
 export interface ICreateAnnouncementData {
@@ -18,4 +19,5 @@ export interface ICreateAnnouncementData {
   price: number;
   announceCover: string;
   category: string;
+  id: string;
 }
