@@ -19,6 +19,8 @@ class UserController {
       complement,
     } = req.body;
 
+    console.log("oi");
+
     const newUser = await UserService.createUsersService({
       name,
       email,
