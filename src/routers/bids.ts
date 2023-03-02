@@ -7,4 +7,7 @@ const bidsRoute = Router();
 //create bid
 bidsRoute.post("/:userId", BidController.createBidController);
 
+//list All
+bidsRoute.get("", BidController.listAllBidController);
+
 export default bidsRoute;
