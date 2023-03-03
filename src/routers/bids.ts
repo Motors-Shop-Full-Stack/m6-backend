@@ -5,7 +5,7 @@ import VerifyToken from "../middlewares/authentication/verifyToken";
 const bidsRoute = Router();
 
 //create bid
-bidsRoute.post("/:userId", BidController.createBidController);
+bidsRoute.post("/", VerifyToken, BidController.createBidController);
 
 //list All
 bidsRoute.get("", BidController.listAllBidController);

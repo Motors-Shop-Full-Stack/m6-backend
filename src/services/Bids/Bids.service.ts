@@ -13,7 +13,7 @@ class BidService {
   static async createBidService(
     userId: string,
     { value, announceId }: ICreateBid
-  ): Promise<boolean> {
+  ): Promise<Bid | Object> {
     if (!announceId) {
       throw new AppError(400, "Announce ID is missing!");
     }
@@ -31,23 +31,70 @@ class BidService {
     if (!findAnnounce) {
       throw new AppError(404, "Announce not found!");
     }
-    console.log(findAnnounce);
 
-    // const newBid = this.bidRepository.create({
-    //   value,
-    //   user: findUser,
-    //   announcement: findAnnounce,
-    // });
+    const findUsersBids = await this.announceRepository
+      .createQueryBuilder("announce")
+      .where("announce.id = :id", { id: announceId })
+      .leftJoinAndSelect("announce.bids", "bid")
+      .leftJoinAndSelect("bid.user", "user")
+      .where("user.id = :id", { id: userId })
+      .getOne();
 
-    // await this.bidRepository.save(newBid);
+    if (findUsersBids != null) {
+      throw new AppError(400, "Only permited one bid per announce!");
+    }
 
-    return true;
+    const newBid = this.bidRepository.create({
+      value,
+      user: findUser,
+      announcement: findAnnounce,
+    });
+
+    await this.bidRepository.save(newBid);
+
+    let responseObj = {};
+
+    const joinResponse = await this.bidRepository
+      .createQueryBuilder("bid")
+      .where("bid.id = :id", { id: newBid.id })
+      .leftJoinAndSelect("bid.announcement", "announce")
+      .getOne();
+
+    responseObj = {
+      id: joinResponse?.id,
+      value: joinResponse?.value,
+      createdAt: joinResponse?.createdAt,
+      announce: {
+        id: joinResponse?.announcement.id,
+      },
+    };
+
+    return responseObj;
   }
 
   static async listAllBindsService(): Promise<Bid[]> {
     const bids = await this.bidRepository.find();
 
     return bids;
+  }
+
+  static async retrieveBindService(bidId: string) {
+    const verifyBid = await this.bidRepository.findOne({
+      where: { id: bidId },
+    });
+    if (!verifyBid) {
+      throw new AppError(404, "Bid not found!");
+    }
+
+    const retrievedBid = await this.bidRepository
+      .createQueryBuilder("bid")
+      .where("bid.id = :id", { id: bidId })
+      .leftJoinAndSelect("bid.announcement", "annonunce")
+      .getOne();
+
+    console.log(retrievedBid);
+
+    return true;
   }
 }
 export default BidService;
