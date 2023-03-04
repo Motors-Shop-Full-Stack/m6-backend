@@ -8,6 +8,7 @@ import handleAppErrorMiddleware from "./middlewares/handleAppError.middlewares";
 import usersRoute from "./routers/user";
 import sessionRoute from "./routers/session";
 import commentRoute from "./routers/comment";
+import bidsRoute from "./routers/bids";
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(express.json());
 app.use("/users", usersRoute);
 app.use("/login", sessionRoute);
 app.use("/announcements", announcementsRoute);
+app.use("/bids", bidsRoute);
 app.use("/comments", commentRoute);
 
 app.use(handleAppErrorMiddleware);
