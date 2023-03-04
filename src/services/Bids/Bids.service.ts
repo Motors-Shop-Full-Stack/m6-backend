@@ -3,7 +3,8 @@ import { AppError } from "../../errors/AppError";
 import { Bid } from "../../entities/Bid";
 import { Announcement } from "../../entities/Announcement";
 import { User } from "../../entities/User";
-import { ICreateBid } from "../../interfaces/Bids";
+import { ICreateBid, IUpdateBid } from "../../interfaces/Bids";
+import { date, string } from "yup";
 
 class BidService {
   static bidRepository = AppDataSource.getRepository(Bid);
@@ -72,13 +73,13 @@ class BidService {
     return responseObj;
   }
 
-  static async listAllBindsService(): Promise<Bid[]> {
+  static async listAllBidsService(): Promise<Bid[]> {
     const bids = await this.bidRepository.find();
 
     return bids;
   }
 
-  static async retrieveBindService(bidId: string) {
+  static async retrieveBidService(bidId: string): Promise<Bid | Object> {
     const verifyBid = await this.bidRepository.findOne({
       where: { id: bidId },
     });
@@ -92,7 +93,61 @@ class BidService {
       .leftJoinAndSelect("bid.announcement", "annonunce")
       .getOne();
 
-    console.log(retrievedBid);
+    let response = {
+      id: retrievedBid?.id,
+      value: retrievedBid?.value,
+      createdAt: retrievedBid?.createdAt,
+      announce: {
+        id: retrievedBid?.announcement.id,
+      },
+    };
+
+    return response;
+  }
+
+  static async updatedBidService(
+    bidId: string,
+    { value }: IUpdateBid
+  ): Promise<Bid | boolean> {
+    const verifyBid = await this.bidRepository.findOne({
+      where: { id: bidId },
+    });
+    if (!verifyBid) {
+      throw new AppError(404, "Bid not found!");
+    }
+
+    if (verifyBid.value == value) {
+      throw new AppError(400, `Bid already registerd with: ${verifyBid.value}`);
+    }
+
+    const currentDate = new Intl.DateTimeFormat("pt-BR").format(new Date());
+    const createdAt = new Intl.DateTimeFormat("pt-BR").format(
+      verifyBid.createdAt
+    );
+
+    if (currentDate.split("/")[0] <= createdAt.split("/")[0]) {
+      throw new AppError(
+        400,
+        "Bid cannot be updated on the same day that was created!"
+      );
+    }
+
+    return await this.bidRepository.save({
+      ...verifyBid,
+      value,
+    });
+  }
+
+  static async deleteBidService(bidId: string): Promise<boolean> {
+    const verifyBid = await this.bidRepository.findOne({
+      where: { id: bidId },
+    });
+
+    if (!verifyBid) {
+      throw new AppError(404, "Bid not found!");
+    }
+
+    await this.bidRepository.delete({ id: bidId });
 
     return true;
   }
