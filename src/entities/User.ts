@@ -17,6 +17,9 @@ export class User {
   @Column({ length: 200 })
   password: string;
 
+  @Column({ length: 200 })
+  description: string;
+
   @Column({ length: 11, unique: true })
   cpf: string;
 
