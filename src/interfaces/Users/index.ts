@@ -1,6 +1,7 @@
 export interface ICreateUser {
   name: string;
   email: string;
+  description: string;
   password: string;
   cpf: string;
   cell: string;
@@ -18,6 +19,7 @@ export interface ICreateUser {
 export interface IUpdateUser {
   name?: string;
   email?: string;
+  description?: string;
   password?: string;
   cpf?: string;
   cell?: string;
