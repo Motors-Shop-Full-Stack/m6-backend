@@ -6,6 +6,7 @@ class UserController {
     const {
       name,
       email,
+      description,
       password,
       cpf,
       cell,
@@ -22,6 +23,7 @@ class UserController {
     const newUser = await UserService.createUsersService({
       name,
       email,
+      description,
       password,
       cpf,
       cell,

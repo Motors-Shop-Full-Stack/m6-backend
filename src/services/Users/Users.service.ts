@@ -8,6 +8,7 @@ class UserService {
   static async createUsersService({
     name,
     email,
+    description,
     password,
     cpf,
     cell,
@@ -39,6 +40,7 @@ class UserService {
     const newUser = userRepository.create({
       name,
       email,
+      description,
       password: hashedPassword,
       cpf,
       cell,
@@ -60,6 +62,7 @@ class UserService {
       .select("user.id")
       .addSelect("user.name")
       .addSelect("user.email")
+      .addSelect("user.description")
       .addSelect("user.cpf")
       .addSelect("user.cell")
       .addSelect("user.birthDate")
@@ -84,9 +87,11 @@ class UserService {
       .select("user.id")
       .addSelect("user.name")
       .addSelect("user.email")
+      .addSelect("user.description")
       .addSelect("user.cell")
       .addSelect("user.accountType")
       .addSelect("user.is_active")
+      .leftJoinAndSelect("user.announcements", "announce")
       .getMany();
 
     return userResponse;
@@ -109,6 +114,7 @@ class UserService {
       .select("user.id")
       .addSelect("user.name")
       .addSelect("user.email")
+      .addSelect("user.description")
       .addSelect("user.cell")
       .addSelect("user.accountType")
       .leftJoinAndSelect("user.announcements", "announcements")
