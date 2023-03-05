@@ -87,6 +87,7 @@ class UserService {
       .addSelect("user.cell")
       .addSelect("user.accountType")
       .addSelect("user.is_active")
+      .leftJoinAndSelect("user.announcements", "announce")
       .getMany();
 
     return userResponse;
